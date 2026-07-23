@@ -10,23 +10,21 @@ module UsageBilling
     def self.build_all(entries:, log_window:)
       return [] if entries.nil? || entries.empty?
       return [] if log_window.nil? || log_window.begin.nil? || log_window.end.nil?
-      live_session_starts = []
-      complete_sessions = []
+      started_sessions = []
+      completed_sessions = []
       entries.each do |entry|
         case entry.boundary_marker
         when :start
-          live_session_starts.push(entry.time_of_day_seconds)
+          started_sessions.push(entry.time_of_day_seconds)
         when :end
-          start = live_session_starts.shift || log_window.begin
-          session = UsageBilling::Session.new(start_at: start, end_at: entry.time_of_day_seconds)
-          complete_sessions << session if session.valid?
+          start = started_sessions.shift || log_window.begin
+          completed_sessions << new(start_at: start, end_at: entry.time_of_day_seconds)
         end
       end
-      live_session_starts.each do |start_time|
-        session = UsageBilling::Session.new(start_at: start_time, end_at: log_window.end)
-        complete_sessions << session if session.valid?
+      started_sessions.each do |start_time|
+        completed_sessions << new(start_at: start_time, end_at: log_window.end)
       end
-      complete_sessions
+      completed_sessions.filter(&:valid?)
     end
 
     def valid?
