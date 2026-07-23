@@ -7,6 +7,9 @@
 
 module UsageBilling
   class UsageLog
+    TIMESTAMP_PATTERN = /\A([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])\z/
+    USERNAME_PATTERN = /\A[A-Za-z0-9]\z/
+
     Entry = Data.define(:time_of_day_seconds, :user, :boundary_marker)
 
     attr_reader :entries, :log_window
@@ -50,10 +53,14 @@ module UsageBilling
 
       # Don't trust strptime - too lenient e.g 1:2:3 is parsed
       def time_to_seconds(time_string)
-        timestamp_regex = /\A([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])\z/
-        matches = timestamp_regex.match(time_string)
+        matches = TIMESTAMP_PATTERN.match(time_string)
         return nil if matches.nil?
         (matches[1].to_i * (60 * 60)) + (matches[2].to_i * 60) + matches[3].to_i
+      end
+
+      def parse_user(username)
+        return nil if USERNAME_PATTERN.match?(username)
+        username
       end
 
       def parse_boundary(boundary)

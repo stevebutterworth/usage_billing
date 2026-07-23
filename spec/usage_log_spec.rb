@@ -119,6 +119,13 @@ module UsageBilling
 
       expect(usage_log.entries).to be_empty
     end
+    it "fails to parse a line with a username that is not alphanumeric silently" do
+      log_text = "14:02:03 ALICE-99 Middle"
+
+      usage_log = described_class.parse(log_text)
+
+      expect(usage_log.entries).to be_empty
+    end
 
     it "successfully parses line with irregular whitespace" do
       log_text = "14:02:03    ALICE99\t\t\tStart\n"
