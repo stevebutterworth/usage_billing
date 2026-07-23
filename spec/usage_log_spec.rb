@@ -64,6 +64,14 @@ module UsageBilling
       expect(usage_log.entries).to be_empty
     end
 
+     it "fails to parse a line with text appended to the bound silently" do
+      log_text = "29:02:03 ALICE99 Started"
+
+      usage_log = described_class.parse(log_text)
+
+      expect(usage_log.entries).to be_empty
+    end
+
     it "fails to parse a line with out of bounds minute silently" do
       log_text = "14:66:03 ALICE99 Start"
 
