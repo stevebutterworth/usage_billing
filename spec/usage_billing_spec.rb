@@ -25,6 +25,11 @@ module UsageBilling
         .to output("")
         .to_stdout_from_any_process
     end
+    it "has no output when passed an invalid file" do
+      expect { system %(bin/usage_billing ./spec/fixtures/bad.log) }
+        .to output("")
+        .to_stdout_from_any_process
+    end
 
   end
 
