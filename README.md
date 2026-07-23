@@ -14,26 +14,13 @@ The applications takes a raw log of session starts and ends and calculates total
 
 ## Installation
 ```sh
+git clone https://github.com/stevebutterworth/usage_billing.git
+cd usage_billing
 bundle install
 chmod +x bin/usage_billing
 ```
 
 ## Usage
-
-Given the provided example at spec/fixtures/basic_usage.log provides
-```text
-14:02:03 ALICE99 Start
-14:02:05 CHARLIE End
-14:02:34 ALICE99 End
-14:02:58 ALICE99 Start
-14:03:02 CHARLIE Start
-14:03:33 ALICE99 Start
-14:03:35 ALICE99 End
-14:03:37 CHARLIE End
-14:04:05 ALICE99 End
-14:04:23 ALICE99 End
-14:04:41 CHARLIE Start
-```
 
 ```sh
 $ bin/usage_billing spec/fixtures/basic_usage.log
