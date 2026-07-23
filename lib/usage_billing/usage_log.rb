@@ -6,9 +6,7 @@
 # 12:23:50 USERNAME End
 
 module UsageBilling
-
   class UsageLog
-
     Entry = Data.define(:time_of_day_seconds, :user, :boundary_marker)
 
     attr_reader :entries, :log_window
@@ -27,7 +25,6 @@ module UsageBilling
     def entries_by_user = @entries.group_by(&:user).sort.to_h
 
     class << self
-
       private
 
       def parse_text(text)
@@ -61,15 +58,12 @@ module UsageBilling
 
       def parse_boundary(boundary)
         case boundary
-        when 'End'
+        when "End"
           :end
-        when 'Start'
+        when "Start"
           :start
-        else
-          nil
         end
       end
-
     end
   end
 end

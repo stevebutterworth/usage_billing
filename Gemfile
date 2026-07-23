@@ -1,3 +1,7 @@
 source "https://rubygems.org"
 
-gem "rspec"
+group :development do
+  gem "rspec"
+  gem "standard"
+  gem "rake"
+end

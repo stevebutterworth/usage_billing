@@ -2,7 +2,6 @@ require "usage_billing/usage_log"
 
 module UsageBilling
   RSpec.describe UsageLog do
-
     it "parses a line to timestamp, name and boundary" do
       log_text = "14:02:03 ALICE99 Start"
 
@@ -11,7 +10,7 @@ module UsageBilling
       expect(usage_log.entries).to eq([
         UsageLog::Entry.new(
           time_of_day_seconds: 50523,
-          user: 'ALICE99',
+          user: "ALICE99",
           boundary_marker: :start
         )
       ])
@@ -73,7 +72,7 @@ module UsageBilling
       expect(usage_log.entries).to be_empty
     end
 
-     it "fails to parse a line with out of bounds second silently" do
+    it "fails to parse a line with out of bounds second silently" do
       log_text = "14:02:99 ALICE99 Start"
 
       usage_log = described_class.parse(log_text)
@@ -127,7 +126,7 @@ module UsageBilling
       usage_log = described_class.parse(log_text)
 
       expect(usage_log.entries).to eq([
-        UsageLog::Entry.new(time_of_day_seconds: 50523, user: 'ALICE99', boundary_marker: :start)
+        UsageLog::Entry.new(time_of_day_seconds: 50523, user: "ALICE99", boundary_marker: :start)
       ])
     end
 
@@ -137,7 +136,7 @@ module UsageBilling
       usage_log = described_class.parse(log_text)
 
       expect(usage_log.entries).to eq([
-        UsageLog::Entry.new(time_of_day_seconds: 50523, user: 'ALICE99', boundary_marker: :start)
+        UsageLog::Entry.new(time_of_day_seconds: 50523, user: "ALICE99", boundary_marker: :start)
       ])
     end
 
@@ -150,8 +149,8 @@ module UsageBilling
       usage_log = described_class.parse(log_text)
 
       expect(usage_log.entries).to eq([
-        UsageLog::Entry.new(time_of_day_seconds: 50523, user: 'ALICE99', boundary_marker: :start),
-        UsageLog::Entry.new(time_of_day_seconds: 50525, user: 'ALICE99', boundary_marker: :end)
+        UsageLog::Entry.new(time_of_day_seconds: 50523, user: "ALICE99", boundary_marker: :start),
+        UsageLog::Entry.new(time_of_day_seconds: 50525, user: "ALICE99", boundary_marker: :end)
       ])
     end
 
@@ -163,7 +162,7 @@ module UsageBilling
 
       usage_log = described_class.parse(log_text)
 
-      expect(usage_log.log_window).to eq((50523..50525))
+      expect(usage_log.log_window).to eq(50523..50525)
     end
 
     it "should return no log bound with empty line" do
@@ -185,16 +184,15 @@ module UsageBilling
       usage_log = described_class.parse(log_text)
 
       expect(usage_log.entries_by_user).to eq({
-        'ALICE99' => [
-          UsageLog::Entry.new(time_of_day_seconds: 50643, user: 'ALICE99', boundary_marker: :start),
-          UsageLog::Entry.new(time_of_day_seconds: 50705, user: 'ALICE99', boundary_marker: :end)
+        "ALICE99" => [
+          UsageLog::Entry.new(time_of_day_seconds: 50643, user: "ALICE99", boundary_marker: :start),
+          UsageLog::Entry.new(time_of_day_seconds: 50705, user: "ALICE99", boundary_marker: :end)
         ],
-        'DENNIS' => [
-          UsageLog::Entry.new(time_of_day_seconds: 50523, user: 'DENNIS', boundary_marker: :start),
-          UsageLog::Entry.new(time_of_day_seconds: 50525, user: 'DENNIS', boundary_marker: :end)
+        "DENNIS" => [
+          UsageLog::Entry.new(time_of_day_seconds: 50523, user: "DENNIS", boundary_marker: :start),
+          UsageLog::Entry.new(time_of_day_seconds: 50525, user: "DENNIS", boundary_marker: :end)
         ]
       })
     end
-
   end
 end

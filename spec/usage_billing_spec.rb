@@ -1,7 +1,5 @@
 module UsageBilling
-
   RSpec.describe "./bin/usage_billing" do
-
     it "outputs error to stderr if no file given" do
       expect { system %(bin/usage_billing) }
         .to output("Usage: bin/usage_billing LOGFILE\n")
@@ -30,7 +28,5 @@ module UsageBilling
         .to output("")
         .to_stdout_from_any_process
     end
-
   end
-
 end

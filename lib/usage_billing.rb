@@ -5,9 +5,7 @@ require "usage_billing/session"
 require "usage_billing/user_bill"
 
 module UsageBilling
-
   class Application
-
     USAGE_ERROR_MSG = "Usage: bin/usage_billing LOGFILE"
 
     def self.run(args, output: $stdout, error: $stderr)
@@ -46,6 +44,5 @@ module UsageBilling
       @error.puts text
       code
     end
-
   end
 end
