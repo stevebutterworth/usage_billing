@@ -51,7 +51,7 @@ bundle exec rspec
 * `Application` is the main entry point handling IO and orchestrating the flow
 * `UsageLog` parses the log file text and exposes its entries and log time window
 * `Session` represents a billable period and calculates its duration
-* `UserBill` is responsible for summing and users total duration and session count
+* `UserBill` is responsible for providing a users total duration and session count
 
 ## Error behaviour
 The appication exits with none-zero status if:
