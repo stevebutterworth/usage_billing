@@ -13,7 +13,6 @@ module UsageBilling
     end
 
     describe ".run" do
-
       it "exits and writes to stderr when run has empty args" do
         status = Application.run([], output: output, error: error)
 

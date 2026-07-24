@@ -31,7 +31,6 @@ module UsageBilling
 
         expect(bill.total_duration).to eq(202)
       end
-
     end
 
     describe "#session_count" do
