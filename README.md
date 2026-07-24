@@ -39,7 +39,8 @@ CHARLIE 3 37
 8. All log entries are from within a single day
 9. Only 1 log file can be passed in
 10. Files with no valid entries results in a successful but empty response
-11. Any extra data on a line after a valid log entry (followed by whitespace) is ignored but the line parses successfully
+11. Any extra text on a line after valid log fields (followed by whitespace) is ignored and line parses successfully
+12. Bill reporting is best served in alphabetical order
 
 ## Testing
 Full unit test suite including smoke tests. Also includes standardrb for linting and formatting. The Github workflow backed CI runs Rake.
