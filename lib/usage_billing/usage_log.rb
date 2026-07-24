@@ -8,7 +8,7 @@
 module UsageBilling
   class UsageLog
     TIMESTAMP_PATTERN = /\A([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])\z/
-    USERNAME_PATTERN = /\A[A-Za-z0-9]\z/
+    USERNAME_PATTERN = /\A[A-Za-z0-9]+\z/
 
     Entry = Data.define(:time_of_day_seconds, :user, :boundary_marker)
 
@@ -45,10 +45,13 @@ module UsageBilling
         time_of_day_seconds = time_to_seconds(fields.first)
         return nil if time_of_day_seconds.nil?
 
+        user = parse_user(fields[1])
+        return nil if user.nil?
+
         boundary_marker = parse_boundary(fields[2])
         return nil if boundary_marker.nil?
 
-        Entry.new(time_of_day_seconds:, user: fields[1], boundary_marker:)
+        Entry.new(time_of_day_seconds:, user:, boundary_marker:)
       end
 
       # Don't trust strptime - too lenient e.g 1:2:3 is parsed
@@ -58,9 +61,9 @@ module UsageBilling
         (matches[1].to_i * (60 * 60)) + (matches[2].to_i * 60) + matches[3].to_i
       end
 
-      def parse_user(username)
-        return nil if USERNAME_PATTERN.match?(username)
-        username
+      def parse_user(user)
+        return nil unless USERNAME_PATTERN.match?(user)
+        user
       end
 
       def parse_boundary(boundary)

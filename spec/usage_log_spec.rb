@@ -128,7 +128,7 @@ module UsageBilling
       expect(usage_log.entries).to be_empty
     end
     it "fails to parse a line with a username that is not alphanumeric silently" do
-      log_text = "14:02:03 ALICE-99 Middle"
+      log_text = "14:02:03 ALICE-99 End"
 
       usage_log = described_class.parse(log_text)
 
