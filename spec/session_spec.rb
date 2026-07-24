@@ -81,7 +81,7 @@ module UsageBilling
         ])
       end
 
-      it "returns a session if its a single start entry with same time as last log entry" do
+      it "returns a session when its a single start entry with same time as last log entry" do
         entries = [
           UsageLog::Entry.new(time_of_day_seconds: 50623, user: "ALICE99", boundary_marker: :start)
         ]
@@ -93,7 +93,7 @@ module UsageBilling
         ])
       end
 
-      it "returns a sessions if its a single end entry with same time as first log entry" do
+      it "returns a session when its a single end entry with same time as first log entry" do
         entries = [
           UsageLog::Entry.new(time_of_day_seconds: 50623, user: "ALICE99", boundary_marker: :end)
         ]
@@ -175,39 +175,43 @@ module UsageBilling
       end
     end
 
-    it "is invalid if it has no start" do
-      session = Session.new(start_at: nil, end_at: 1)
-      expect(session.valid?).to be false
+    describe "#valid?" do
+      it "is invalid if it has no start" do
+        session = Session.new(start_at: nil, end_at: 1)
+        expect(session.valid?).to be false
+      end
+
+      it "is invalid if it has no end" do
+        session = Session.new(start_at: 1, end_at: nil)
+        expect(session.valid?).to be false
+      end
+
+      it "is invalid if it has an end earlier than a start" do
+        session = Session.new(start_at: 2, end_at: 1)
+        expect(session.valid?).to be false
+      end
+
+      it "is invalid if the start and end time are equal" do
+        session = Session.new(start_at: 2, end_at: 2)
+        expect(session.valid?).to be true
+      end
+
+      it "is valid when start is lower than end" do
+        session = Session.new(start_at: 1, end_at: 5)
+        expect(session.valid?).to be true
+      end
     end
 
-    it "is invalid if it has no end" do
-      session = Session.new(start_at: 1, end_at: nil)
-      expect(session.valid?).to be false
-    end
+    describe "#duration" do
+      it "has a nil duration when invalid" do
+        session = Session.new(start_at: 2, end_at: 1)
+        expect(session.duration).to be_nil
+      end
 
-    it "is invalid if it has an end earlier than a start" do
-      session = Session.new(start_at: 2, end_at: 1)
-      expect(session.valid?).to be false
-    end
-
-    it "is invalid if the start and end time are equal" do
-      session = Session.new(start_at: 2, end_at: 2)
-      expect(session.valid?).to be true
-    end
-
-    it "is valid when start is lower than end" do
-      session = Session.new(start_at: 1, end_at: 5)
-      expect(session.valid?).to be true
-    end
-
-    it "has a nil duration when invalid" do
-      session = Session.new(start_at: 2, end_at: 1)
-      expect(session.duration).to be_nil
-    end
-
-    it "calculates duration when sessions is valid" do
-      session = Session.new(start_at: 1, end_at: 5)
-      expect(session.duration).to eq(4)
+      it "calculates duration when sessions is valid" do
+        session = Session.new(start_at: 1, end_at: 5)
+        expect(session.duration).to eq(4)
+      end
     end
   end
 end
