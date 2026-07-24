@@ -24,6 +24,7 @@ module UsageBilling
       expect(usage_log.entries).to be_empty
     end
 
+
     it "fails to parse nil text silently" do
       log_text = nil
 

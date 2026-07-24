@@ -18,9 +18,11 @@ module UsageBilling
       new(entries: parse_text(text))
     end
 
+    private_class_method :new
+
     def initialize(entries:)
-      @entries = (entries || []).compact
-      unless @entries.empty?
+      @entries = entries
+      unless entries.empty?
         @log_window = (entries.first.time_of_day_seconds..entries.last.time_of_day_seconds)
       end
     end
