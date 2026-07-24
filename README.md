@@ -42,8 +42,10 @@ CHARLIE 3 37
 11. Any extra data on a line after a valid log entry (followed by whitespace) is ignored but the line parses successfully
 
 ## Testing
+Full unit test suite including smoke tests. Also includes standardrb for linting and formatting. The Github workflow backed CI runs Rake.
 ```sh
 bundle exec rspec
+bundle exec rake
 ```
 
 ## Architecture
