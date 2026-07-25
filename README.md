@@ -3,7 +3,7 @@
 ## Description
 A small Ruby command-line application that calculates user bills for a hosted application provider.
 
-The applications takes a raw log of session starts and ends and calculates total session durations for each user.
+The application takes a raw log of session starts and ends and calculates total session durations for each user.
 * Parses chronological log entries ignoring lines that do not begin with format `HH:MM:SS USERNAME Start|End`
 * Supports overlapping sessions
 * Reports total usage output to stdout. 1 line per user in format `USERNAME SESSION_COUNT TOTAL_DURATION`
@@ -41,6 +41,7 @@ CHARLIE 3 37
 10. Files with no valid entries results in a successful but empty response
 11. Any extra text on a line after valid log fields (followed by whitespace) is ignored and line parses successfully
 12. Bill reporting is best served in alphabetical order
+13. The file fits in memory so can be processed as a single batch
 
 ## Testing
 Full unit test suite including smoke tests. Also includes standardrb for linting and formatting. The Github workflow backed CI runs Rake.
@@ -57,6 +58,6 @@ bundle exec rake
 * `UserBill` is responsible for providing a users total duration and session count
 
 ## Error behaviour
-The appication exits with none-zero status if:
+The application exits with non-zero status if:
 * No file name is given
 * The file cannot be found or read
